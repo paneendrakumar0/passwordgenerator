@@ -1,41 +1,46 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=JetBrains+Mono:wght@500&display=swap');
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Space+Mono:wght@400;700&display=swap');
 
-:root {
-    --primary-color: #ffffff;
-    --secondary-color: #e0e0e0;
-    --accent-color: #6b4cff; /* Bright Purple/Blue */
-    --card-bg: rgba(255, 255, 255, 0.1);
-    --result-bg: rgba(0, 0, 0, 0.3);
-}
-
+/* Reset and Basic Variables */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
+:root {
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --backdrop-blur: 15px;
+    --primary-color: #ffffff;
+    --accent-color: #6b4cff; /* Vibrant Purple */
+    --accent-hover: #5538e0;
+    --result-text: #00ffc8;  /* Cyan/Teal for password */
+}
+
 body {
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); /* Deep Ocean Gradient */
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #141e30, #243b55); /* Deep dark blue gradient */
     color: var(--primary-color);
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    overflow: hidden; /* Prevents scrollbars if tilt goes too far */
+    overflow: hidden; /* Prevents scrollbars during tilt */
 }
 
-/* Glassmorphism Card */
+/* The Glass Card */
 .card {
-    background: var(--card-bg);
-    backdrop-filter: blur(15px); /* The frost effect */
-    -webkit-backdrop-filter: blur(15px); /* Safari support */
+    background: var(--glass-bg);
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(var(--backdrop-blur));
+    -webkit-backdrop-filter: blur(var(--backdrop-blur));
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
     padding: 20px;
     width: 350px;
-    border-radius: 15px;
-    /* Transformation settings for Vanilla Tilt */
+    
+    /* 3D Transform Settings for Vanilla-Tilt */
     transform-style: preserve-3d;
     transform: perspective(1000px);
 }
@@ -43,116 +48,136 @@ body {
 .container {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    padding: 10px;
 }
 
 h2 {
     text-align: center;
     margin-bottom: 20px;
     font-weight: 600;
-    letter-spacing: 1px;
     text-transform: uppercase;
-    font-size: 1.5rem;
+    letter-spacing: 2px;
 }
 
-/* The Password Display Screen */
+/* Password Display Area */
 .result-container {
-    background-color: var(--result-bg);
+    background-color: rgba(0, 0, 0, 0.3);
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     position: relative;
-    font-size: 18px;
-    letter-spacing: 1px;
-    padding: 12px 10px;
-    height: 50px;
-    width: 100%;
+    padding: 12px 15px;
+    height: 55px;
     border-radius: 8px;
-    box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
-    margin-bottom: 15px;
+    border: 1px solid rgba(255,255,255,0.05);
+    margin-bottom: 20px;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.4);
 }
 
-/* Important: Use Monospace for passwords to distinguish l, 1, I, 0, O */
 #result {
-    font-family: 'JetBrains Mono', monospace; 
-    word-wrap: break-word;
-    max-width: calc(100% - 40px);
-    overflow-x: auto;
-    color: #00ffcc; /* Cyan text for the password */
+    /* Monospace font is critical for passwords */
+    font-family: 'Space Mono', monospace;
+    font-size: 18px;
+    color: var(--result-text);
+    word-break: break-all;
+    max-width: 85%;
+    height: 25px; /* Keeps layout stable even when empty */
 }
 
-/* Copy Button */
+/* Clipboard Button */
 .result-container .btn {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    width: 40px;
-    height: 40px;
-    font-size: 20px;
     background: transparent;
-    color: var(--primary-color);
     border: none;
+    color: #fff;
+    font-size: 1.2rem;
     cursor: pointer;
-    transition: color 0.3s;
+    transition: color 0.3s ease;
 }
 
 .result-container .btn:hover {
-    color: var(--accent-color);
+    color: var(--result-text);
+    transform: scale(1.1);
 }
 
-/* Settings List */
+/* Settings Rows */
+.settings {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
 .setting {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 15px 0;
     font-size: 0.95rem;
-    color: var(--secondary-color);
 }
 
-/* Number Input Styling */
+/* Inputs styling */
 input[type="number"] {
-    font-family: 'Poppins', sans-serif;
-    padding: 5px;
-    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.15);
     border: none;
-    background: rgba(255,255,255,0.2);
     color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    width: 55px;
     text-align: center;
-    width: 50px;
+    font-family: 'Poppins', sans-serif;
 }
 
-/* Checkbox Styling */
+/* Checkbox styling */
 input[type="checkbox"] {
+    appearance: none; /* Remove default styling */
+    -webkit-appearance: none;
+    height: 20px;
+    width: 20px;
+    background-color: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 4px;
     cursor: pointer;
-    width: 18px;
-    height: 18px;
-    accent-color: var(--accent-color); /* Modern browser checkbox coloring */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+input[type="checkbox"]:checked {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+/* Adding a checkmark when checked */
+input[type="checkbox"]:checked::after {
+    content: '\f00c'; /* FontAwesome checkmark unicode */
+    font-family: 'Font Awesome 5 Free'; 
+    font-weight: 900;
+    color: white;
+    font-size: 12px;
 }
 
 /* Generate Button */
 .btn-large {
-    display: block;
     width: 100%;
-    border: none;
     background-color: var(--accent-color);
     color: white;
+    border: none;
     padding: 12px;
     border-radius: 8px;
-    font-size: 16px;
-    font-weight: bold;
+    font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
-    margin-top: 20px;
+    margin-top: 25px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background 0.3s ease, transform 0.1s ease;
     box-shadow: 0 4px 15px rgba(107, 76, 255, 0.4);
-    transition: all 0.3s ease;
 }
 
 .btn-large:hover {
-    background-color: #5a3de0;
-    transform: translateY(-2px);
+    background-color: var(--accent-hover);
     box-shadow: 0 6px 20px rgba(107, 76, 255, 0.6);
 }
 
 .btn-large:active {
-    transform: translateY(1px);
+    transform: scale(0.98);
 }
